@@ -1,0 +1,14 @@
+# 攝影機帳號密碼（請勿上傳）
+config.json
+
+# Python
+__pycache__/
+*.py[cod]
+
+# PyInstaller 輸出
+build/
+dist/
+*.spec
+
+# Logs
+*.log

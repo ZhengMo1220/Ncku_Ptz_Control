@@ -1,0 +1,9 @@
+{
+    "username": "YOUR_CAMERA_USERNAME",
+    "password": "YOUR_CAMERA_PASSWORD",
+    "ip_prefix": "10.30.3.",
+    "rtsp_port": 554,
+    "rtsp_path": "stream0",
+    "onvif_port": 80,
+    "no_control_cameras": ["Ptz01", "Ptz02"]
+}
