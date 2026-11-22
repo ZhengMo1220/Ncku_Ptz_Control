@@ -14,31 +14,45 @@
 ## 環境需求
 
 - Windows 10 / 11
+- [Git](https://git-scm.com/download/win)
 - [Miniconda / Anaconda](https://docs.conda.io/)
 - 電腦需與攝影機在同一個網段（預設 `10.30.3.x`）
 
+> 以下指令請在 **Anaconda Prompt** 或 **命令提示字元（cmd）** 執行。
+> 若使用 PowerShell，執行 `.bat` 時前面要加 `.\`（例如 `.\install.bat`）。
+> `.bat` 檔也可以直接在檔案總管中雙擊執行。
+
 ## 安裝
 
-```bash
+### 方法 A：使用 install.bat（建議）
+
+```bat
 git clone https://github.com/ZhengMo1220/Ncku_Ptz_Control.git
 cd Ncku_Ptz_Control
 install.bat
 ```
 
-`install.bat` 會建立 conda 環境 `ptz`（Python 3.9）、安裝 `requirements.txt`，並由 `config.example.json` 複製出 `config.json`。
+`install.bat` 會：
 
-手動安裝：
+1. 建立 conda 環境 `ptz`（Python 3.9）
+2. 安裝 `requirements.txt` 中的套件
+3. 由 `config.example.json` 複製出 `config.json`
 
-```bash
+> 若 conda 顯示 `Terms of Service have not been accepted`（conda 25.5 以後的版本），
+> 先執行 `conda tos accept`，再重新執行 `install.bat`。
+
+### 方法 B：手動安裝
+
+```bat
 conda create -n ptz python=3.9 -y
 conda activate ptz
 pip install -r requirements.txt
 copy config.example.json config.json
 ```
 
-## 設定攝影機帳號密碼
+## 設定攝影機帳號密碼（必要）
 
-帳號密碼**不放在程式碼與 git 中**，請編輯 `config.json`：
+帳號密碼**不放在程式碼與 git 中**。請用記事本開啟 `config.json`，把 `YOUR_CAMERA_USERNAME` / `YOUR_CAMERA_PASSWORD` 改成攝影機實際的帳號密碼：
 
 ```json
 {
@@ -52,9 +66,11 @@ copy config.example.json config.json
 }
 ```
 
+尚未填寫就啟動時，程式會跳出「設定檔尚未填寫」提示。
+
 ## 執行
 
-```bash
+```bat
 start.bat
 ```
 
@@ -64,13 +80,14 @@ start.bat
 
 ## 打包成執行檔（選用）
 
-```bash
+```bat
 conda activate ptz
 pip install pyinstaller
 packing.bat
 ```
 
-產生的 `dist/Ptz_Control.exe` 可帶到現場電腦直接執行，**需將 `config.json` 放在 exe 同一個資料夾**。
+產生的 `dist\Ptz_Control.exe`（約 95 MB）可帶到現場電腦直接執行，不需安裝 Python。
+**需將 `config.json` 複製到 exe 同一個資料夾**，否則會顯示「缺少設定檔」。
 
 ## 修改介面
 
@@ -100,6 +117,9 @@ packing.bat
 | 問題 | 解法 |
 |---|---|
 | `start.bat` 顯示找不到 `ptz` 環境 / `No module named 'onvif'` | 執行 `install.bat` |
-| 啟動時顯示「缺少設定檔」 | 複製 `config.example.json` 為 `config.json` 並填入帳號密碼 |
+| 啟動時顯示「缺少設定檔」 | 複製 `config.example.json` 為 `config.json` 並填入帳號密碼（exe 版要放在 exe 旁邊） |
+| 啟動時顯示「設定檔尚未填寫」 | `config.json` 仍是範本內容，請填入攝影機實際帳號密碼 |
+| PowerShell 顯示 `install.bat` 無法辨識 | 改用 `.\install.bat`，或在 cmd / Anaconda Prompt 執行 |
+| conda 顯示 `Terms of Service have not been accepted` | 執行 `conda tos accept` 後重試 |
 | 「無法開啟攝影機串流」 | 確認電腦與攝影機在同一網段、IP 與帳號密碼正確 |
 | 「PTZ 控制連線失敗」 | 該攝影機未開啟 ONVIF 或離線；串流仍可觀看，只是不能控制 |

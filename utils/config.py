@@ -26,6 +26,11 @@ def load_config():
     with open(path, "r", encoding="utf-8") as f:
         cfg = json.load(f)
 
+    if str(cfg.get("username", "")).startswith("YOUR_") or str(cfg.get("password", "")).startswith("YOUR_"):
+        raise ValueError(
+            f"設定檔尚未填寫：{path}\n請把 username / password 改成攝影機實際的帳號密碼。"
+        )
+
     cfg.setdefault("rtsp_port", 554)
     cfg.setdefault("rtsp_path", "stream0")
     cfg.setdefault("onvif_port", 80)

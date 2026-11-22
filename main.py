@@ -44,7 +44,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     try:
         window = Main()
-    except FileNotFoundError as e:
+    except (FileNotFoundError, ValueError) as e:
         QMessageBox.critical(None, "缺少設定檔", str(e))
         sys.exit(1)
     window.show()
